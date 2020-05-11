@@ -1,0 +1,15 @@
+User-agent: *
+Allow: /
+Allow: /css/
+Allow: /libs/
+Allow: /medias/
+Allow: /js/
+Disallow: /about/
+Disallow: /archives/
+Disallow: /categories/
+Disallow: /contact/
+Disallow: /friends/
+Disallow: /page/
+Disallow: /tags/
+
+Sitemap: https://doctor-deng.github.io/sitemap.xml
