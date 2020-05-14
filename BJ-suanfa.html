@@ -27,7 +27,7 @@
 </script>
 
 
-    <title>笔记之算法与数据结构 | Hexo</title>
+    <title>笔记之算法与数据结构（持续更新中） | Hexo</title>
     <link rel="icon" type="image/png" href="/favicon.png">
 
     <link rel="stylesheet" type="text/css" href="/libs/awesome/css/all.css">
@@ -320,12 +320,12 @@
 
 
 
-<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/0.jpg')">
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/12.jpg')">
     <div class="container" style="right: 0px;left: 0px;">
         <div class="row">
             <div class="col s12 m12 l12">
                 <div class="brand">
-                    <h1 class="description center-align post-title">笔记之算法与数据结构</h1>
+                    <h1 class="description center-align post-title">笔记之算法与数据结构（持续更新中）</h1>
                 </div>
             </div>
         </div>
@@ -471,14 +471,14 @@
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>Word Count:&nbsp;&nbsp;
-                    9.1k
+                    10.3k
                 </div>
                 
 
                 
                 <div class="info-break-policy">
                     <i class="far fa-clock fa-fw"></i>Read Times:&nbsp;&nbsp;
-                    35 Min
+                    40 Min
                 </div>
                 
 
@@ -1407,7 +1407,129 @@ p <span class="token operator">-</span><span class="token operator">></span> nex
 <p>  <strong>三、归并排序的空间复杂度</strong></p>
 <p>  由于在合并两个有序数组为一个有序数组的时候，需要借助额外的存储空间，因此归并排序并不是一个原地排序算法。</p>
 <p>  在申请额外的存储空间时，因为只是临时的，所以在合并后，这个临时空间就被释放。从 CPU 的角度来说，任意时刻，只有一个函数在运行，只会有一个临时空间在使用。临时空间也不会超过 n 个数据的大小。空间复杂度为 O(n)</p>
-<h4 id="快速排序"><a href="#快速排序" class="headerlink" title="快速排序"></a>快速排序</h4><p>To be completed…</p>
+<h4 id="快速排序"><a href="#快速排序" class="headerlink" title="快速排序"></a>快速排序</h4><ul>
+<li><p>快排使用的也是分治思想。</p>
+</li>
+<li><p>快速排序的思想：假如给定一组 a  到  c 的数据，对它们进行排序，我们首先要找到 a 到 c 中任意一个数据作为 pivot (节点)，把小于 pivot 的放到左边去，把大于 pivot 的放到右边去，pivot 放在中间。这样就可以分成了三个区域，a 到 b-1 之间为小于 pivot 的，pivot 为一个区域，b + 1 到 c 之间为大于 pivot 的</p>
+</li>
+</ul>
+<p>  <img src="BJ-suanfa/%E5%BF%AB%E9%80%9F%E6%8E%92%E5%BA%8F_1.png" alt=""></p>
+<ul>
+<li><p>根据分治，递归的思想，先用递归排序，如图，我们可以用递归排序下标从 p 到 q - 1 的数据和下标从 q + 1 到 r 之间的数据，直到区间缩小为 1 ，说明数据有序。</p>
+</li>
+<li><p>递推公式：</p>
+<p>quick_sort(p..r) = quick_sork(p..q-1) + quick_sork(q+1..r)</p>
+</li>
+<li><p>终止条件：</p>
+<p>p &gt;= r</p>
+<p>转换成伪代码实现</p>
+<pre class=" language-java"><code class="language-java">         <span class="token comment" spellcheck="true">// 快速排序，A是数组，n表示数组的大小</span>
+        <span class="token function">quick_sort</span><span class="token punctuation">(</span>A<span class="token punctuation">,</span> n<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            <span class="token function">quick_sort_c</span><span class="token punctuation">(</span>A<span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">,</span> n<span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">)</span>
+        <span class="token punctuation">}</span>
+        <span class="token comment" spellcheck="true">// 快速排序递归函数，p,r为下标</span>
+        <span class="token function">quick_sort_c</span><span class="token punctuation">(</span>A<span class="token punctuation">,</span> p<span class="token punctuation">,</span> r<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            <span class="token keyword">if</span> p <span class="token operator">>=</span> r then <span class="token keyword">return</span> 
+            q <span class="token operator">=</span> <span class="token function">partition</span><span class="token punctuation">(</span>A<span class="token punctuation">,</span> p<span class="token punctuation">,</span> r<span class="token punctuation">)</span> <span class="token comment" spellcheck="true">// 获取分区点</span>
+            <span class="token function">quick_sort_c</span><span class="token punctuation">(</span>A<span class="token punctuation">,</span> p<span class="token punctuation">,</span> q<span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">)</span>
+            <span class="token function">quick_sort_c</span><span class="token punctuation">(</span>A<span class="token punctuation">,</span> q<span class="token operator">+</span><span class="token number">1</span><span class="token punctuation">,</span> r<span class="token punctuation">)</span>
+        <span class="token punctuation">}</span></code></pre>
+<p>归并排序中有一个 merge() 合并函数，快排用的是 partition() 分区函数。</p>
+<p>partition() 分区函数的作用是随机选择一个元素作为 pivot （一般情况下，选择 p 到 r 区间的最后一个元素），之后对 A[p..r] 分区，函数返回 pivot 下标</p>
+<p>不考虑空间消耗的话，partition()  分区函数可以申请两个临时空间，遍历 A[p..r]，将比 pivot 小的放临时数组 X ，将比 pivot 大的放临时数组 Y，最后合并 X 和 Y 数组复制到 A[p..r]</p>
+</li>
+</ul>
+<p>  <img src="BJ-suanfa/%E5%BF%AB%E9%80%9F%E6%8E%92%E5%BA%8F_5.png" alt=""></p>
+<p>  这样一来，partition() 函数需要很多额外空间，所以快排就不为原地排序算法。</p>
+<ul>
+<li><p>将快排优化成原地排序算法的话，空间复杂度要为 O(1)，partition（）分区函数不能拥有额外空间，需要在 A[p..r]  里完成分区的操作</p>
+<p>伪代码：</p>
+<pre class=" language-java"><code class="language-java">        <span class="token function">partition</span><span class="token punctuation">(</span>A<span class="token punctuation">,</span> p<span class="token punctuation">,</span> r<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            pivot <span class="token operator">:</span><span class="token operator">=</span> A<span class="token punctuation">[</span>r<span class="token punctuation">]</span>
+            i <span class="token operator">:</span><span class="token operator">=</span> p
+            <span class="token keyword">for</span> j <span class="token operator">:</span><span class="token operator">=</span> p to r<span class="token operator">-</span><span class="token number">1</span> <span class="token keyword">do</span> <span class="token punctuation">{</span>
+                <span class="token keyword">if</span> A<span class="token punctuation">[</span>j<span class="token punctuation">]</span> <span class="token operator">&lt;</span> pivot <span class="token punctuation">{</span>
+                    swap A<span class="token punctuation">[</span>i<span class="token punctuation">]</span> with A<span class="token punctuation">[</span>j<span class="token punctuation">]</span>
+                    i <span class="token operator">:</span><span class="token operator">=</span> i<span class="token operator">+</span><span class="token number">1</span>
+                <span class="token punctuation">}</span>
+            <span class="token punctuation">}</span>
+            swap A<span class="token punctuation">[</span>i<span class="token punctuation">]</span> with A<span class="token punctuation">[</span>r<span class="token punctuation">]</span>
+            <span class="token keyword">return</span> i</code></pre>
+<p>类似于选择排序，我们通过游标 i 将 A[p..r-1] 分成两部分，A [p..i-1] 的元素小于 pivot （已处理区间），A[i..r-1] （未处理区间）。从未处理区间中取元素 A[j] 与 pivot 比较，假如小于 pivot ，就放到已处理区间的后面，即为 A[i]。</p>
+<p>交换：在 O(1) 的时间复杂度内完成插入操作，将 A[i] 和 A[j] 交换，就可以在 O(1) 时间复杂度内将 A[j] 放到下标为 i 的位置</p>
+<p><img src="BJ-suanfa/%E5%BF%AB%E9%80%9F%E6%8E%92%E5%BA%8F_2.png" alt=""></p>
+<p>由于涉及到交换，在第一次分区操作后，相同的数字交换后，会改变先后顺序的位置，它不是一个稳定的排序算法</p>
+</li>
+</ul>
+<ul>
+<li><p><strong>归并排序与快速排序的区别：</strong></p>
+<p><img src="BJ-suanfa/%E5%BF%AB%E9%80%9F%E6%8E%92%E5%BA%8F_3.png" alt=""></p>
+</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th align="center"></th>
+<th align="center">归并排序</th>
+<th align="center">快速排序</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">相同</td>
+<td align="center">思想：都用到了分治思想，<br></td>
+<td align="center"></td>
+</tr>
+<tr>
+<td align="center">不同</td>
+<td align="center">处理过程：由上到下，先处理子问题，再合并<br>稳定、非原地排序算法</td>
+<td align="center">处理过程：由下到上，先分区，再处理子问题<br>不稳定，原地排序算法</td>
+</tr>
+</tbody></table>
+<p><strong>快排的时间复杂度：</strong></p>
+<p>最好时间复杂度：O(nlogn)   对应的情况：如果每次刚好能将分区分成两个大小相同的区间，快排的时间复杂度于递推求解公式和归并排序是一致的</p>
+<p>最坏时间复杂度：O(n²)  ，假如给定的数组是排序好的，每次选择最后一个元素作为 pivot ，每次分区得到的两个区间都是不同的，大约要进行 n 次分区，才能完成整个操作，每次分区平均要扫描 n/2 个元素，时间复杂度就从 O(nlogn) 退化成了 O(n²)</p>
+<p>平均复杂度：T(n)在大部分情况下的时间复杂度都可以做到O(nlogn)，只有在极端情况下，才会退化到O(n2)。</p>
+<p>实现代码：</p>
+<pre class=" language-java"><code class="language-java"> <span class="token keyword">public</span> <span class="token keyword">static</span> <span class="token keyword">void</span> <span class="token function">quickSort</span><span class="token punctuation">(</span><span class="token keyword">int</span><span class="token punctuation">[</span><span class="token punctuation">]</span> arr<span class="token punctuation">,</span><span class="token keyword">int</span> low<span class="token punctuation">,</span><span class="token keyword">int</span> high<span class="token punctuation">)</span><span class="token punctuation">{</span>
+        <span class="token keyword">int</span> i<span class="token punctuation">,</span>j<span class="token punctuation">,</span>temp<span class="token punctuation">,</span>t<span class="token punctuation">;</span>
+        <span class="token keyword">if</span><span class="token punctuation">(</span>low <span class="token operator">>=</span> high<span class="token punctuation">)</span><span class="token punctuation">{</span>
+            <span class="token keyword">return</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+        i <span class="token operator">=</span> low<span class="token punctuation">;</span>
+        j <span class="token operator">=</span> high<span class="token punctuation">;</span>
+        <span class="token comment" spellcheck="true">//temp就是基准位</span>
+        temp <span class="token operator">=</span> arr<span class="token punctuation">[</span>low<span class="token punctuation">]</span><span class="token punctuation">;</span>
+
+        <span class="token keyword">while</span> <span class="token punctuation">(</span>i<span class="token operator">&lt;</span>j<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            <span class="token comment" spellcheck="true">//先看右边，依次往左递减</span>
+            <span class="token keyword">while</span> <span class="token punctuation">(</span>temp  <span class="token operator">&lt;=</span> arr<span class="token punctuation">[</span>j<span class="token punctuation">]</span> <span class="token operator">&amp;&amp;</span> i<span class="token operator">&lt;</span>j<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+                j<span class="token operator">--</span><span class="token punctuation">;</span>
+            <span class="token punctuation">}</span>
+            <span class="token comment" spellcheck="true">//再看左边，依次往右递增</span>
+            <span class="token keyword">while</span> <span class="token punctuation">(</span>temp <span class="token operator">>=</span> arr<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token operator">&amp;&amp;</span>i<span class="token operator">&lt;</span>j<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+                i<span class="token operator">++</span><span class="token punctuation">;</span>
+            <span class="token punctuation">}</span>
+            <span class="token comment" spellcheck="true">//如果满足条件则交换</span>
+            <span class="token keyword">if</span> <span class="token punctuation">(</span>i<span class="token operator">&lt;</span>j<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+                t <span class="token operator">=</span> arr<span class="token punctuation">[</span>j<span class="token punctuation">]</span><span class="token punctuation">;</span>
+                arr<span class="token punctuation">[</span>j<span class="token punctuation">]</span> <span class="token operator">=</span> arr<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">;</span>
+                arr<span class="token punctuation">[</span>i<span class="token punctuation">]</span> <span class="token operator">=</span> t<span class="token punctuation">;</span>
+            <span class="token punctuation">}</span>
+
+        <span class="token punctuation">}</span>
+
+
+    <span class="token punctuation">}</span>
+
+
+    <span class="token keyword">public</span> <span class="token keyword">static</span> <span class="token keyword">void</span> <span class="token function">main</span><span class="token punctuation">(</span>String<span class="token punctuation">[</span><span class="token punctuation">]</span> args<span class="token punctuation">)</span><span class="token punctuation">{</span>
+        <span class="token keyword">int</span><span class="token punctuation">[</span><span class="token punctuation">]</span> arr <span class="token operator">=</span> <span class="token punctuation">{</span><span class="token number">10</span><span class="token punctuation">,</span><span class="token number">7</span><span class="token punctuation">,</span><span class="token number">2</span><span class="token punctuation">,</span><span class="token number">4</span><span class="token punctuation">,</span><span class="token number">7</span><span class="token punctuation">,</span><span class="token number">62</span><span class="token punctuation">,</span><span class="token number">3</span><span class="token punctuation">,</span><span class="token number">4</span><span class="token punctuation">,</span><span class="token number">2</span><span class="token punctuation">,</span><span class="token number">1</span><span class="token punctuation">,</span><span class="token number">8</span><span class="token punctuation">,</span><span class="token number">9</span><span class="token punctuation">,</span><span class="token number">19</span><span class="token punctuation">}</span><span class="token punctuation">;</span>
+        <span class="token function">quickSort</span><span class="token punctuation">(</span>arr<span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">,</span> arr<span class="token punctuation">.</span>length<span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token keyword">int</span> i <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span> i <span class="token operator">&lt;</span> arr<span class="token punctuation">.</span>length<span class="token punctuation">;</span> i<span class="token operator">++</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            System<span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span>arr<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span></code></pre>
+<p>To be completed…</p>
 <script>
         document.querySelectorAll('.github-emoji')
           .forEach(el => {
@@ -1671,9 +1793,9 @@ p <span class="token operator">-</span><span class="token operator">></span> nex
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/0.jpg" class="responsive-img" alt="笔记之算法与数据结构">
+                        <img src="/medias/featureimages/12.jpg" class="responsive-img" alt="笔记之算法与数据结构（持续更新中）">
                         
-                        <span class="card-title">笔记之算法与数据结构</span>
+                        <span class="card-title">笔记之算法与数据结构（持续更新中）</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
