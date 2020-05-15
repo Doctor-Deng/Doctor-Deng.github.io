@@ -471,14 +471,14 @@
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>Word Count:&nbsp;&nbsp;
-                    10.3k
+                    11k
                 </div>
                 
 
                 
                 <div class="info-break-policy">
                     <i class="far fa-clock fa-fw"></i>Read Times:&nbsp;&nbsp;
-                    40 Min
+                    42 Min
                 </div>
                 
 
@@ -1492,7 +1492,7 @@ p <span class="token operator">-</span><span class="token operator">></span> nex
 <p>实现代码：</p>
 <pre class=" language-java"><code class="language-java"> <span class="token keyword">public</span> <span class="token keyword">static</span> <span class="token keyword">void</span> <span class="token function">quickSort</span><span class="token punctuation">(</span><span class="token keyword">int</span><span class="token punctuation">[</span><span class="token punctuation">]</span> arr<span class="token punctuation">,</span><span class="token keyword">int</span> low<span class="token punctuation">,</span><span class="token keyword">int</span> high<span class="token punctuation">)</span><span class="token punctuation">{</span>
         <span class="token keyword">int</span> i<span class="token punctuation">,</span>j<span class="token punctuation">,</span>temp<span class="token punctuation">,</span>t<span class="token punctuation">;</span>
-        <span class="token keyword">if</span><span class="token punctuation">(</span>low <span class="token operator">>=</span> high<span class="token punctuation">)</span><span class="token punctuation">{</span>
+        <span class="token keyword">if</span><span class="token punctuation">(</span>low <span class="token operator">></span> high<span class="token punctuation">)</span><span class="token punctuation">{</span>
             <span class="token keyword">return</span><span class="token punctuation">;</span>
         <span class="token punctuation">}</span>
         i <span class="token operator">=</span> low<span class="token punctuation">;</span>
@@ -1529,6 +1529,98 @@ p <span class="token operator">-</span><span class="token operator">></span> nex
             System<span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span>arr<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
         <span class="token punctuation">}</span>
     <span class="token punctuation">}</span></code></pre>
+<h4 id="桶排序"><a href="#桶排序" class="headerlink" title="桶排序"></a>桶排序</h4><ul>
+<li>实现思想：将排序的数据放在几个有序的桶里，每个桶对桶里的数据进行排序，排序好之后，依次从每个桶里取出数据，就实现了有序</li>
+</ul>
+<p>  <img src="BJ-suanfa/%E6%A1%B6%E6%8E%92%E5%BA%8F_1.png" alt=""></p>
+<ul>
+<li><p>时间复杂度为：O（n）</p>
+<p>假如要排序的数据有  n 个，把他们均匀的分在 m 个桶里，那么每个桶中就有k= n/m 个数据，每个桶里使用快速排序，时间复杂度就为 O(klognk)。m  个桶排序时，就是 O(m * k * logk)，k = n/m，O(n * log(n/m))，如果数据 n 等于桶的个数 m ，那么 log(n/m) 是一个非常小的常量，桶排序的复杂度接近 O(n)。</p>
+</li>
+</ul>
+<ul>
+<li><p>最坏情况时间复杂度：O(n * logn)</p>
+<p>把全部数据都放在一个桶里的情况</p>
+</li>
+</ul>
+<ul>
+<li><p>桶排序适用于外部排序，外部排序是数据存储在外部磁盘中，数据量大，内存有限，无法加载到内存中    </p>
+</li>
+<li><p>实现代码：</p>
+<pre class=" language-java"><code class="language-java"><span class="token keyword">import</span> java<span class="token punctuation">.</span>util<span class="token punctuation">.</span>ArrayList<span class="token punctuation">;</span>
+<span class="token keyword">import</span> java<span class="token punctuation">.</span>util<span class="token punctuation">.</span>LinkedList<span class="token punctuation">;</span>
+<span class="token keyword">import</span> java<span class="token punctuation">.</span>util<span class="token punctuation">.</span>List<span class="token punctuation">;</span>
+<span class="token keyword">import</span> java<span class="token punctuation">.</span>util<span class="token punctuation">.</span>ListIterator<span class="token punctuation">;</span>
+
+<span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">Main</span> <span class="token punctuation">{</span>
+
+    <span class="token keyword">public</span> <span class="token keyword">static</span> <span class="token keyword">void</span> <span class="token function">main</span><span class="token punctuation">(</span>String<span class="token punctuation">[</span><span class="token punctuation">]</span> args<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token comment" spellcheck="true">// 输入元素均在 [0, 10) 这个区间内</span>
+        <span class="token keyword">float</span><span class="token punctuation">[</span><span class="token punctuation">]</span> arr <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">float</span><span class="token punctuation">[</span><span class="token punctuation">]</span> <span class="token punctuation">{</span> <span class="token number">0.12f</span><span class="token punctuation">,</span> <span class="token number">2.2f</span><span class="token punctuation">,</span> <span class="token number">8.8f</span><span class="token punctuation">,</span> <span class="token number">7.6f</span><span class="token punctuation">,</span> <span class="token number">7.2f</span><span class="token punctuation">,</span> <span class="token number">6.3f</span><span class="token punctuation">,</span> <span class="token number">9.0f</span><span class="token punctuation">,</span> <span class="token number">1.6f</span><span class="token punctuation">,</span> <span class="token number">5.6f</span><span class="token punctuation">,</span> <span class="token number">2.4f</span> <span class="token punctuation">}</span><span class="token punctuation">;</span>
+        <span class="token function">bucketSort</span><span class="token punctuation">(</span>arr<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token function">printArray</span><span class="token punctuation">(</span>arr<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token keyword">public</span> <span class="token keyword">static</span> <span class="token keyword">void</span> <span class="token function">bucketSort</span><span class="token punctuation">(</span><span class="token keyword">float</span><span class="token punctuation">[</span><span class="token punctuation">]</span> arr<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token comment" spellcheck="true">// 新建一个桶的集合</span>
+        ArrayList<span class="token operator">&lt;</span>LinkedList<span class="token operator">&lt;</span>Float<span class="token operator">>></span> buckets <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">ArrayList</span><span class="token operator">&lt;</span>LinkedList<span class="token operator">&lt;</span>Float<span class="token operator">>></span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token keyword">int</span> i <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span> i <span class="token operator">&lt;</span> <span class="token number">10</span><span class="token punctuation">;</span> i<span class="token operator">++</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            <span class="token comment" spellcheck="true">// 新建一个桶，并将其添加到桶的集合中去。</span>
+            <span class="token comment" spellcheck="true">// 由于桶内元素会频繁的插入，所以选择 LinkedList 作为桶的数据结构</span>
+            buckets<span class="token punctuation">.</span><span class="token function">add</span><span class="token punctuation">(</span><span class="token keyword">new</span> <span class="token class-name">LinkedList</span><span class="token operator">&lt;</span>Float<span class="token operator">></span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+        <span class="token comment" spellcheck="true">// 将输入数据全部放入桶中并完成排序</span>
+        <span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token keyword">float</span> data <span class="token operator">:</span> arr<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            <span class="token keyword">int</span> index <span class="token operator">=</span> <span class="token function">getBucketIndex</span><span class="token punctuation">(</span>data<span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token function">insertSort</span><span class="token punctuation">(</span>buckets<span class="token punctuation">.</span><span class="token function">get</span><span class="token punctuation">(</span>index<span class="token punctuation">)</span><span class="token punctuation">,</span> data<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+        <span class="token comment" spellcheck="true">// 将桶中元素全部取出来并放入 arr 中输出</span>
+        <span class="token keyword">int</span> index <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span>
+        <span class="token keyword">for</span> <span class="token punctuation">(</span>LinkedList<span class="token operator">&lt;</span>Float<span class="token operator">></span> bucket <span class="token operator">:</span> buckets<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            <span class="token keyword">for</span> <span class="token punctuation">(</span>Float data <span class="token operator">:</span> bucket<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+                arr<span class="token punctuation">[</span>index<span class="token operator">++</span><span class="token punctuation">]</span> <span class="token operator">=</span> data<span class="token punctuation">;</span>
+            <span class="token punctuation">}</span>
+        <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token comment" spellcheck="true">/**
+     * 计算得到输入元素应该放到哪个桶内
+     */</span>
+    <span class="token keyword">public</span> <span class="token keyword">static</span> <span class="token keyword">int</span> <span class="token function">getBucketIndex</span><span class="token punctuation">(</span><span class="token keyword">float</span> data<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token comment" spellcheck="true">// 这里例子写的比较简单，仅使用浮点数的整数部分作为其桶的索引值</span>
+        <span class="token comment" spellcheck="true">// 实际开发中需要根据场景具体设计</span>
+        <span class="token keyword">return</span> <span class="token punctuation">(</span><span class="token keyword">int</span><span class="token punctuation">)</span> data<span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token comment" spellcheck="true">/**
+     * 我们选择插入排序作为桶内元素排序的方法 每当有一个新元素到来时，我们都调用该方法将其插入到恰当的位置
+     */</span>
+    <span class="token keyword">public</span> <span class="token keyword">static</span> <span class="token keyword">void</span> <span class="token function">insertSort</span><span class="token punctuation">(</span>List<span class="token operator">&lt;</span>Float<span class="token operator">></span> bucket<span class="token punctuation">,</span> <span class="token keyword">float</span> data<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        ListIterator<span class="token operator">&lt;</span>Float<span class="token operator">></span> it <span class="token operator">=</span> bucket<span class="token punctuation">.</span><span class="token function">listIterator</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword">boolean</span> insertFlag <span class="token operator">=</span> <span class="token boolean">true</span><span class="token punctuation">;</span>
+        <span class="token keyword">while</span> <span class="token punctuation">(</span>it<span class="token punctuation">.</span><span class="token function">hasNext</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            <span class="token keyword">if</span> <span class="token punctuation">(</span>data <span class="token operator">&lt;=</span> it<span class="token punctuation">.</span><span class="token function">next</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+                it<span class="token punctuation">.</span><span class="token function">previous</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment" spellcheck="true">// 把迭代器的位置偏移回上一个位置</span>
+                it<span class="token punctuation">.</span><span class="token function">add</span><span class="token punctuation">(</span>data<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment" spellcheck="true">// 把数据插入到迭代器的当前位置</span>
+                insertFlag <span class="token operator">=</span> <span class="token boolean">false</span><span class="token punctuation">;</span>
+                <span class="token keyword">break</span><span class="token punctuation">;</span>
+            <span class="token punctuation">}</span>
+        <span class="token punctuation">}</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span>insertFlag<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            bucket<span class="token punctuation">.</span><span class="token function">add</span><span class="token punctuation">(</span>data<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment" spellcheck="true">// 否则把数据插入到链表末端</span>
+        <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token keyword">public</span> <span class="token keyword">static</span> <span class="token keyword">void</span> <span class="token function">printArray</span><span class="token punctuation">(</span><span class="token keyword">float</span><span class="token punctuation">[</span><span class="token punctuation">]</span> arr<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token keyword">int</span> i <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span> i <span class="token operator">&lt;</span> arr<span class="token punctuation">.</span>length<span class="token punctuation">;</span> i<span class="token operator">++</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            System<span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">print</span><span class="token punctuation">(</span>arr<span class="token punctuation">[</span>i<span class="token punctuation">]</span> <span class="token operator">+</span> <span class="token string">", "</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+        System<span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+
+<span class="token punctuation">}</span></code></pre>
+</li>
+</ul>
 <p>To be completed…</p>
 <script>
         document.querySelectorAll('.github-emoji')
