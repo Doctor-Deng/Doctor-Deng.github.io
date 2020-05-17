@@ -471,14 +471,14 @@
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>Word Count:&nbsp;&nbsp;
-                    11.8k
+                    12.5k
                 </div>
                 
 
                 
                 <div class="info-break-policy">
                     <i class="far fa-clock fa-fw"></i>Read Times:&nbsp;&nbsp;
-                    46 Min
+                    48 Min
                 </div>
                 
 
@@ -1700,6 +1700,77 @@ p <span class="token operator">-</span><span class="token operator">></span> nex
 <li><p>计数排序适用的范围只能是数据范围不大的场景，比如：数据范围 a 比要排序的数据 b 要大很多，就不适合采用计数排序的方法。</p>
 </li>
 <li><p>计数排序只能适用于非负整数进行排序，如果排序的数据是其他类型的，要在不改变相对大小的去情况下，转化成非负数。比如：排序的数据中有负数，数据范围是【-1000，1000】，排序前需要对每个数据加 1000 ，转换成非负数</p>
+</li>
+</ul>
+<h4 id="基数排序"><a href="#基数排序" class="headerlink" title="基数排序"></a>基数排序</h4><ul>
+<li><p>基数排序就是将待排序数据拆分成多个关键字进行排序，本质是关键字排序</p>
+<p>多关键字排序时有两种解决方案：</p>
+<p>最高位优先法</p>
+<p>最低位优先法</p>
+<p>例如，对以下数据序列进行排序</p>
+<p>192，221，12，23</p>
+<p>数据最多只有 3 位，可以拆分成 3 个关键字：百位（百位）、十位、个位（低位）</p>
+</li>
+<li><p>按照习惯思维，会先比较百位，百位大的数据大，百位相同的再比较十位，十位的数据大，最后比较个位数</p>
+<p>但计算机按照人的思维，实现起来会有一定的困难，比较十位时，还得看看百位是否相同，增加难度，因此计算机采用最低位优先法</p>
+</li>
+<li><p>基数排序对子关键字进行排序时，得借助另一个稳定的算法</p>
+<p>PS：使用不稳定的排序算法，最后一次排序只会考虑最高位的大小关系，而不考虑其它位的大小关系，那么毫无意义</p>
+<p>子关键字位于 0 - 9 的这个范围，所以使用桶排序会很不错。</p>
+<p>代码实现：</p>
+<pre class=" language-java"><code class="language-java"> <span class="token keyword">public</span> <span class="token keyword">static</span> <span class="token keyword">void</span> <span class="token function">main</span><span class="token punctuation">(</span>String<span class="token punctuation">[</span><span class="token punctuation">]</span> args<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">int</span><span class="token punctuation">[</span><span class="token punctuation">]</span> data <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">int</span><span class="token punctuation">[</span><span class="token punctuation">]</span> <span class="token punctuation">{</span> <span class="token number">1100</span><span class="token punctuation">,</span> <span class="token number">192</span><span class="token punctuation">,</span> <span class="token number">221</span><span class="token punctuation">,</span> <span class="token number">12</span><span class="token punctuation">,</span> <span class="token number">23</span> <span class="token punctuation">}</span><span class="token punctuation">;</span>
+        <span class="token function">print</span><span class="token punctuation">(</span>data<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token function">radixSort</span><span class="token punctuation">(</span>data<span class="token punctuation">,</span> <span class="token number">10</span><span class="token punctuation">,</span> <span class="token number">4</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        System<span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span><span class="token string">"排序后的数组："</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token function">print</span><span class="token punctuation">(</span>data<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token keyword">public</span> <span class="token keyword">static</span> <span class="token keyword">void</span> <span class="token function">radixSort</span><span class="token punctuation">(</span><span class="token keyword">int</span><span class="token punctuation">[</span><span class="token punctuation">]</span> data<span class="token punctuation">,</span> <span class="token keyword">int</span> radix<span class="token punctuation">,</span> <span class="token keyword">int</span> d<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token comment" spellcheck="true">// 缓存数组</span>
+        <span class="token keyword">int</span><span class="token punctuation">[</span><span class="token punctuation">]</span> tmp <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">int</span><span class="token punctuation">[</span>data<span class="token punctuation">.</span>length<span class="token punctuation">]</span><span class="token punctuation">;</span>
+        <span class="token comment" spellcheck="true">// buckets用于记录待排序元素的信息</span>
+        <span class="token comment" spellcheck="true">// buckets数组定义了max-min个桶</span>
+        <span class="token keyword">int</span><span class="token punctuation">[</span><span class="token punctuation">]</span> buckets <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">int</span><span class="token punctuation">[</span>radix<span class="token punctuation">]</span><span class="token punctuation">;</span>
+
+        <span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token keyword">int</span> i <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">,</span> rate <span class="token operator">=</span> <span class="token number">1</span><span class="token punctuation">;</span> i <span class="token operator">&lt;</span> d<span class="token punctuation">;</span> i<span class="token operator">++</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+
+            <span class="token comment" spellcheck="true">// 重置count数组，开始统计下一个关键字</span>
+            Arrays<span class="token punctuation">.</span><span class="token function">fill</span><span class="token punctuation">(</span>buckets<span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token comment" spellcheck="true">// 将data中的元素完全复制到tmp数组中</span>
+            System<span class="token punctuation">.</span><span class="token function">arraycopy</span><span class="token punctuation">(</span>data<span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">,</span> tmp<span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">,</span> data<span class="token punctuation">.</span>length<span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+            <span class="token comment" spellcheck="true">// 计算每个待排序数据的子关键字</span>
+            <span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token keyword">int</span> j <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span> j <span class="token operator">&lt;</span> data<span class="token punctuation">.</span>length<span class="token punctuation">;</span> j<span class="token operator">++</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+                <span class="token keyword">int</span> subKey <span class="token operator">=</span> <span class="token punctuation">(</span>tmp<span class="token punctuation">[</span>j<span class="token punctuation">]</span> <span class="token operator">/</span> rate<span class="token punctuation">)</span> <span class="token operator">%</span> radix<span class="token punctuation">;</span>
+                buckets<span class="token punctuation">[</span>subKey<span class="token punctuation">]</span><span class="token operator">++</span><span class="token punctuation">;</span>
+            <span class="token punctuation">}</span>
+
+            <span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token keyword">int</span> j <span class="token operator">=</span> <span class="token number">1</span><span class="token punctuation">;</span> j <span class="token operator">&lt;</span> radix<span class="token punctuation">;</span> j<span class="token operator">++</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+                buckets<span class="token punctuation">[</span>j<span class="token punctuation">]</span> <span class="token operator">=</span> buckets<span class="token punctuation">[</span>j<span class="token punctuation">]</span> <span class="token operator">+</span> buckets<span class="token punctuation">[</span>j <span class="token operator">-</span> <span class="token number">1</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+            <span class="token punctuation">}</span>
+
+            <span class="token comment" spellcheck="true">// 按子关键字对指定的数据进行排序</span>
+            <span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token keyword">int</span> m <span class="token operator">=</span> data<span class="token punctuation">.</span>length <span class="token operator">-</span> <span class="token number">1</span><span class="token punctuation">;</span> m <span class="token operator">>=</span> <span class="token number">0</span><span class="token punctuation">;</span> m<span class="token operator">--</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+                <span class="token keyword">int</span> subKey <span class="token operator">=</span> <span class="token punctuation">(</span>tmp<span class="token punctuation">[</span>m<span class="token punctuation">]</span> <span class="token operator">/</span> rate<span class="token punctuation">)</span> <span class="token operator">%</span> radix<span class="token punctuation">;</span>
+                data<span class="token punctuation">[</span><span class="token operator">--</span>buckets<span class="token punctuation">[</span>subKey<span class="token punctuation">]</span><span class="token punctuation">]</span> <span class="token operator">=</span> tmp<span class="token punctuation">[</span>m<span class="token punctuation">]</span><span class="token punctuation">;</span>
+            <span class="token punctuation">}</span>
+            rate <span class="token operator">*=</span> radix<span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+
+    <span class="token punctuation">}</span>
+
+    <span class="token keyword">public</span> <span class="token keyword">static</span> <span class="token keyword">void</span> <span class="token function">print</span><span class="token punctuation">(</span><span class="token keyword">int</span><span class="token punctuation">[</span><span class="token punctuation">]</span> data<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token keyword">int</span> i <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span> i <span class="token operator">&lt;</span> data<span class="token punctuation">.</span>length<span class="token punctuation">;</span> i<span class="token operator">++</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            System<span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">print</span><span class="token punctuation">(</span>data<span class="token punctuation">[</span>i<span class="token punctuation">]</span> <span class="token operator">+</span> <span class="token string">"\t"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+        System<span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+</code></pre>
+</li>
+<li><p>基数排序的时间复杂度为 O（n）</p>
+</li>
+<li><p>基数排序对排序的数据是有要求的，需要可以分割出独立的 “位” 来比较，而且位之间有递进的关系，如果 a 数据的高位比 b 数据大，剩下的低位就不需要比较了。每一位的数据范围不能过大，要能使用线性排序算法来排序，不然时间复杂度无法保持 O（n）</p>
 </li>
 </ul>
 <p>参考文献：《极客时间》数据结构与算法之美  王争</p>
