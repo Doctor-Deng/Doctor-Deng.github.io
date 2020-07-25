@@ -471,14 +471,14 @@
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>Word Count:&nbsp;&nbsp;
-                    12.5k
+                    13k
                 </div>
                 
 
                 
                 <div class="info-break-policy">
                     <i class="far fa-clock fa-fw"></i>Read Times:&nbsp;&nbsp;
-                    48 Min
+                    50 Min
                 </div>
                 
 
@@ -1216,7 +1216,7 @@ p <span class="token operator">-</span><span class="token operator">></span> nex
 <p>比如：1，2，1，0，5，第一次找到最小元素0，与第一个元素交换位置，数组中两个 “1” 的前后顺序就变了，不稳定排序算法</p>
 </li>
 </ul>
-<h4 id="插入排序比冒泡排序受欢迎的缘由"><a href="#插入排序比冒泡排序受欢迎的缘由" class="headerlink" title="插入排序比冒泡排序受欢迎的缘由"></a>插入排序比冒泡排序受欢迎的缘由</h4><ul>
+<h5 id="插入排序比冒泡排序受欢迎的缘由"><a href="#插入排序比冒泡排序受欢迎的缘由" class="headerlink" title="插入排序比冒泡排序受欢迎的缘由"></a>插入排序比冒泡排序受欢迎的缘由</h5><ul>
 <li><p>相同点：冒泡排序和插入排序的时间复杂度都是 O(n²)，都是原地排序算法；不管怎么优化，元素的移动次数都是等于原始数据的逆序度</p>
 </li>
 <li><p>不同点：代码实现方面，冒牌排序进行的数据交换要比插入排序更为复杂，冒泡排序需要进行<strong>三个赋值操作</strong>，而插入排序只需要进行<strong>一个赋值操作即可</strong></p>
@@ -1773,6 +1773,82 @@ p <span class="token operator">-</span><span class="token operator">></span> nex
 <li><p>基数排序对排序的数据是有要求的，需要可以分割出独立的 “位” 来比较，而且位之间有递进的关系，如果 a 数据的高位比 b 数据大，剩下的低位就不需要比较了。每一位的数据范围不能过大，要能使用线性排序算法来排序，不然时间复杂度无法保持 O（n）</p>
 </li>
 </ul>
+<h3 id="选择合适的排序方法"><a href="#选择合适的排序方法" class="headerlink" title="选择合适的排序方法"></a>选择合适的排序方法</h3><table>
+<thead>
+<tr>
+<th align="left"></th>
+<th align="center">时间复杂度</th>
+<th align="center">是否稳定排序</th>
+<th align="center">是否原地排序</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">冒泡排序</td>
+<td align="center">O（n²）</td>
+<td align="center">√</td>
+<td align="center">√</td>
+</tr>
+<tr>
+<td align="left">插入排序</td>
+<td align="center">O（n²）</td>
+<td align="center">√</td>
+<td align="center">√</td>
+</tr>
+<tr>
+<td align="left">选择排序</td>
+<td align="center">O（n²）</td>
+<td align="center">×</td>
+<td align="center">√</td>
+</tr>
+<tr>
+<td align="left">快速排序</td>
+<td align="center">O（nlogn）</td>
+<td align="center">×</td>
+<td align="center">√</td>
+</tr>
+<tr>
+<td align="left">归并排序</td>
+<td align="center">O（nlogn）</td>
+<td align="center">√</td>
+<td align="center">×</td>
+</tr>
+<tr>
+<td align="left">计数排序</td>
+<td align="center">O（n+k）k为数据范围</td>
+<td align="center">√</td>
+<td align="center">×</td>
+</tr>
+<tr>
+<td align="left">桶排序</td>
+<td align="center">O（n）</td>
+<td align="center">√</td>
+<td align="center">×</td>
+</tr>
+<tr>
+<td align="left">基数排序</td>
+<td align="center">O（dn）d是维度</td>
+<td align="center">√</td>
+<td align="center">×</td>
+</tr>
+</tbody></table>
+<p>线性排序算法的时间复杂度比较低，适用场景比较特殊。</p>
+<p>如果写一个通用的排序函数，不能选择线性排序算法</p>
+<ul>
+<li>对小规模的数据进行排序，可选择时间复杂度O（n²）的算法，</li>
+<li>对大规模数据进行排序，时间复杂度为 O（nlogn）的算法更高效。</li>
+<li>兼顾任意规模的数据进行排序，首选时间复杂度为 O（nlogn）的排序算法实现</li>
+</ul>
+<h2 id="二分查找法"><a href="#二分查找法" class="headerlink" title="二分查找法"></a>二分查找法</h2><p>二分查找法其实也叫折半查找算法，针对有序数据集合的查找算法。</p>
+<h3 id="二分思想无处不在"><a href="#二分思想无处不在" class="headerlink" title="二分思想无处不在"></a>二分思想无处不在</h3><h4 id="生活中的例子"><a href="#生活中的例子" class="headerlink" title="生活中的例子"></a>生活中的例子</h4><p>有一个小游戏，就是你在 0- 99 的整数里面猜，你每说的一个数，我会告诉你这个数比正确答案大还是小，直到你猜中为止。</p>
+<p>假如写的数字是 23 ，按照下图步骤试试，如果中间数有两个，那么取最小的那个</p>
+<p><img src="BJ-suanfa/%E4%BA%8C%E5%88%86%E6%9F%A5%E6%89%BE1_1.png" alt=""></p>
+<p><img src="BJ-suanfa/%E4%BA%8C%E5%88%86%E6%9F%A5%E6%89%BE1_2.png" alt=""></p>
+<h4 id="实际开发的例子"><a href="#实际开发的例子" class="headerlink" title="实际开发的例子"></a>实际开发的例子</h4><p>假设有 1000 条订单数据，已经按照订单金额从小到大排序，每个订单金额都不同，并且最小单位是 元。我们现在想知道是否存在金额等于 19 元的订单。如果存在，则返回订单数据，如果不存在则返回 null。</p>
+<p>最简便的方法，可以遍历这 1000 条订单，找到等于 19 元的订单为止，查询效率比较低下，最坏情况下，可能要遍历 1000 条数据才能找到</p>
+<p>使用二分查找法更快的解决。</p>
+<p>假如只有 10 个订单，订单金额分别是：8，11，19，23，27，33，45，55，67，98</p>
+<p>利用二分思想，每次都与区间的中间数据比较大小，缩小查找区间的范围。</p>
+<p>low 和 high 表示待</p>
 <p>参考文献：《极客时间》数据结构与算法之美  王争</p>
 <p>To be completed…</p>
 <script>
@@ -2029,33 +2105,32 @@ p <span class="token operator">-</span><span class="token operator">></span> nex
 <article id="prenext-posts" class="prev-next articles">
     <div class="row article-row">
         
-        <div class="article col s12 m6" data-aos="fade-up" data-aos="fade-up">
+        <div class="article col s12 m6" data-aos="fade-up">
             <div class="article-badge left-badge text-color">
-                <i class="far fa-dot-circle"></i>&nbsp;Current
-            </div>
+                <i class="fas fa-chevron-left"></i>&nbsp;Previous</div>
             <div class="card">
-                <a href="/BJ-suanfa.html">
+                <a href="/CollectionsAndArrays.html">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/12.jpg" class="responsive-img" alt="笔记之算法与数据结构（持续更新中）">
+                        <img src="/medias/featureimages/18.jpg" class="responsive-img" alt="Collections 工具类和 Arrays 工具类常见方法">
                         
-                        <span class="card-title">笔记之算法与数据结构（持续更新中）</span>
+                        <span class="card-title">Collections 工具类和 Arrays 工具类常见方法</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            笔记之算法和数据结构面试需要掌握的算法与数据结构这一块的内容，大概有以下几点：
-
-​       数组、链表、二叉树、队列、栈的各种操作（性能，场景）            
-​       二分查找和各种变种的二分查找          
+                            CollectionsCollections 工具类常用方法：1、排序
+2、查找，替换
+3、同步控制（一般不推荐使用，需要线程安全集合类型时考虑用 JUC 包下的并发集合）
+参考资料：JDK_API_1.8_zh_CN  中 Java.ut
                         
                     </div>
                     <div class="publish-info">
-                            <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2020-05-10
-                            </span>
+                        <span class="publish-date">
+                            <i class="far fa-clock fa-fw icon-date"></i>2020-07-25
+                        </span>
                         <span class="publish-author">
                             
                             <i class="fas fa-user fa-fw"></i>
@@ -2064,16 +2139,11 @@ p <span class="token operator">-</span><span class="token operator">></span> nex
                         </span>
                     </div>
                 </div>
-
                 
                 <div class="card-action article-tags">
                     
-                    <a href="/tags/%E7%AC%94%E8%AE%B0/">
-                        <span class="chip bg-color">笔记</span>
-                    </a>
-                    
-                    <a href="/tags/%E7%AE%97%E6%B3%95/">
-                        <span class="chip bg-color">算法</span>
+                    <a href="/tags/Collection-Arrays/">
+                        <span class="chip bg-color">Collection Arrays</span>
                     </a>
                     
                 </div>

@@ -8,8 +8,16 @@
     </url>
 
     <url>
+        <loc>https://doctor-deng.github.io/CollectionsAndArrays.html</loc>
+        <lastmod>2020-07-25T10:39:44.210Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+
+    </url>
+
+    <url>
         <loc>https://doctor-deng.github.io/BJ-suanfa.html</loc>
-        <lastmod>2020-05-17T08:51:05.280Z</lastmod>
+        <lastmod>2020-05-19T15:00:48.802Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.6</priority>
 
